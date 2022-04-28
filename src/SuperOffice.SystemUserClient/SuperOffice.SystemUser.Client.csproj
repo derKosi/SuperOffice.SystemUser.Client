@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <AssemblyName>SuperOffice.SystemUser.Client</AssemblyName>
+    <RootNamespace>SuperOffice.SystemUser.Client</RootNamespace>
+    <Description>Simplifies process to obtain a system user token for use in the SuperOffice CRM Online environment.</Description>
+    <Copyright>SuperOffice AS</Copyright>
+    <PackageProjectUrl>https://docs.superoffice.com</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/SuperOffice/SuperOffice.SystemUser.Client</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>SuperOffice;SystemUser</PackageTags>
+    <Company>SuperOffice AS</Company>
+    <Authors>SuperOffice</Authors>
+    <PackageLicenseFile>D:\github\SuperOffice.SystemUser.Client\src\SuperOffice.SystemUserClient\LICENSE</PackageLicenseFile>
+    <PackageIcon>superoffice_logo.png</PackageIcon>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <DocumentationFile>$(Output)\SuperOffice.SystemUser.Client.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="LICENSE" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="LICENSE">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\assets\superoffice_logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.17.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.17.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+</Project>

@@ -45,7 +45,7 @@ When using `GetSystemUserJwtAsync`, there are two ways you can perform validatio
 var tokenValidationResult = await sysUserClient.ValidateSystemUserResultAsync(systemUserResult);
 ```
 
-1. Manually perform validation and extract claims, the `SystemUserClient` uses the `JwtTokenHandler`, located in the `SuperOffice.WebApi.IdentityModel` namespace.
+1. Manually perform validation and extract claims, the `SystemUserClient` uses the `JwtTokenHandler`, located in the `SuperOffice.SystemUser.Tokens` namespace.
 
 ```C#
 var handler = new SystemUserTokenHandler(

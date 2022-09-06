@@ -21,6 +21,7 @@ namespace SuperOffice.SystemUser
             return domain.Equals("sod", StringComparison.OrdinalIgnoreCase)
                 || domain.Equals("qastage", StringComparison.OrdinalIgnoreCase)
                 || domain.Equals("stage", StringComparison.OrdinalIgnoreCase)
+                || domain.Equals("qaonline", StringComparison.OrdinalIgnoreCase)
                 || domain.Equals("online", StringComparison.OrdinalIgnoreCase);
         }
     }

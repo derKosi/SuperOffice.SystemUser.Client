@@ -78,7 +78,7 @@ namespace Test.SystemUserClient
 
             var handler = new SuperOffice.SystemUser.Tokens.SystemUserTokenHandler(
                 new System.Net.Http.HttpClient(), // HttpClient instance.
-                "staging"                       // target online subdomain (sod, qastage or online)
+                "staging"                       // target online subdomain (sod, qaonline or online)
             );
 
             var tokenValidationResult = await handler.ValidateAsync(token.Token);

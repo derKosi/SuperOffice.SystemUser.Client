@@ -13,9 +13,14 @@
     <PackageTags>SuperOffice;SystemUser</PackageTags>
     <Company>SuperOffice AS</Company>
     <Authors>SuperOffice</Authors>
-    <PackageLicenseFile>D:\github\SuperOffice.SystemUser.Client\src\SuperOffice.SystemUserClient\LICENSE</PackageLicenseFile>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageIcon>superoffice_logo.png</PackageIcon>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>SuperOffice.snk</AssemblyOriginatorKeyFile>
+    <FileVersion>1.0.0.3</FileVersion>
+    <Version>1.0.3</Version>
+    <PackageReleaseNotes>Changed SubDomain validation to only check subdomain begins with sod, qaonline or online.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
@@ -23,13 +28,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="LICENSE" />
+    <None Remove="LICENSE.txt" />
+    <None Include="LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="LICENSE">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="LICENSE.txt" />
   </ItemGroup>
 
   <ItemGroup>

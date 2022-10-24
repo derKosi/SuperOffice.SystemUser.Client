@@ -69,7 +69,7 @@ namespace SuperOffice.SystemUser
         public ConfigurationManager(HttpClient client, string subdomain)
         {
             if (!subdomain.IsValidSubDomain())
-                throw new InvalidSubDomainException("Invalid SuperOffice CRM online subdomain specified. Use 'sod' or 'qastage' or 'online'.");
+                throw new InvalidSubDomainException("Invalid SuperOffice CRM online subdomain specified. Use 'sod' or 'qaonline' or 'online'.");
 
             SubDomain = subdomain;
 

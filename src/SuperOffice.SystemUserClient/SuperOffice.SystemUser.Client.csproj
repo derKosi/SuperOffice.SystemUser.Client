@@ -16,10 +16,10 @@
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageIcon>superoffice_logo.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <SignAssembly>False</SignAssembly>
-    <AssemblyOriginatorKeyFile></AssemblyOriginatorKeyFile>
-    <FileVersion>1.0.0.3</FileVersion>
-    <Version>1.0.3</Version>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>C:\SuperOffice\FileSet\Critical\Keys\SuperOffice.snk</AssemblyOriginatorKeyFile>
+    <FileVersion>1.0.0.4</FileVersion>
+    <Version>1.0.4</Version>
     <PackageReleaseNotes>Changed SubDomain validation to only check subdomain begins with sod, qaonline or online.</PackageReleaseNotes>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>

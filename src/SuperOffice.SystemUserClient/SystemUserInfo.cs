@@ -29,13 +29,13 @@ namespace SuperOffice.SystemUser
         public string ContextIdentifier { get; set; }
 
         /// <summary>
-        /// The application private key (RSA XML format), used to sign system user token requests. Starts with <RSAKeyValue>.
+        /// The application private key (RSA XML format), used to sign system user token requests. Starts with &lt;RSAKeyValue&gt;.
         /// </summary>
         [JsonIgnore()]
         public string PrivateKey { get; set; }
 
         /// <summary>
-        /// The target SuperOffice CRM online subdomain ('sod', 'qastage' or 'online').
+        /// The target SuperOffice CRM online subdomain ('sod', 'qaonline' or 'online').
         /// </summary>
         [JsonIgnore()]
         public string SubDomain 
@@ -47,7 +47,7 @@ namespace SuperOffice.SystemUser
             set
             {
                 if (!value.IsValidSubDomain())
-                    throw new Client.Exceptions.InvalidSubDomainException("Invalid SuperOffice CRM online subdomain specified. Use 'sod' or 'qastage' or 'online'.");
+                    throw new Client.Exceptions.InvalidSubDomainException("Invalid SuperOffice CRM online subdomain specified. Use 'sod' or 'qaonline' or 'online'.");
                 _subDomain = value;
             } 
         }
@@ -58,10 +58,15 @@ namespace SuperOffice.SystemUser
         [JsonIgnore()] 
         public string SystemUserToken { get; set; }
 
+        /// <summary>
+        /// Return token type. Always JWT.
+        /// </summary>
         [JsonProperty(PropertyName = "ReturnTokenType", NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string ReturnTokenType => "JWT";
 
-
+        /// <summary>
+        /// SignedSystemToken is the signed system user token string.
+        /// </summary>
         [JsonProperty(PropertyName = "SignedSystemToken", NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string SignedSystemToken
         {

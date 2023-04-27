@@ -7,6 +7,9 @@ using System.Text;
 
 namespace SuperOffice.SystemUser
 {
+    /// <summary>
+    /// Extension methods for string.
+    /// </summary>
     public static class StringExtensions
     {
         /// <summary>

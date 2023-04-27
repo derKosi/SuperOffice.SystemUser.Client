@@ -40,7 +40,7 @@ namespace SuperOffice.SystemUser
         public OpenIdConfiguration Configuration { get; private set; } = null;
 
         /// <summary>
-        /// Gets or sets the target online subdomain to either sod, qastage or online (for dev, stage, and production).
+        /// Gets or sets the target online subdomain to either sod, qaonline or online (for dev, stage, and production).
         /// The default value is "SOD".
         /// </summary>
         public string SubDomain
@@ -65,7 +65,8 @@ namespace SuperOffice.SystemUser
         /// <summary>
         /// Constructor 
         /// </summary>
-        /// <param name="subdomain">Online subdomain (SOD, Stage, Production)</param>
+        /// <param name="client">HttpClient instance.</param>
+        /// <param name="subdomain">Online subdomain (sod, qaonline, online)</param>
         public ConfigurationManager(HttpClient client, string subdomain)
         {
             if (!subdomain.IsValidSubDomain())

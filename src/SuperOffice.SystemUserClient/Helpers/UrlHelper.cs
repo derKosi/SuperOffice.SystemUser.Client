@@ -17,7 +17,7 @@ namespace SuperOffice.SystemUser.Helpers
         /// <summary>
         /// Helper class for getting common URL strings for an environment.
         /// </summary>
-        /// <param name="subdomain">Online environment subdomain (sod, qastage, online)</param>
+        /// <param name="subdomain">Online environment subdomain (sod, qaonline, online)</param>
         public UrlHelper(string subdomain)
         {
             _subdomain = subdomain;

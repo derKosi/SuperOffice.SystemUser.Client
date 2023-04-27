@@ -10,12 +10,21 @@ namespace SuperOffice.SystemUser
     /// </summary>
     public class SystemUserResult
     {
+        /// <summary>
+        /// Error Message if any.
+        /// </summary>
         [JsonProperty(PropertyName = "ErrorMessage", NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string ErrorMessage { get; set; }
 
+        /// <summary>
+        /// IsSuccessful is true when the token is successfully returned.
+        /// </summary>
         [JsonProperty(PropertyName = "IsSuccessful", NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)] 
         public bool IsSuccessful { get; set; }
 
+        /// <summary>
+        /// Token is the system user token as JWT.
+        /// </summary>
         [JsonProperty(PropertyName = "Token", NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Token { get; set; }
     }

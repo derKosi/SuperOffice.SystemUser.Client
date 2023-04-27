@@ -17,7 +17,7 @@ The constructor accepts a `SuperOffice.SystemUser.SystemUserInfo` instance, and 
 
 |Property            |Description                                        |
 |--------------------|---------------------------------------------------|
-|SubDomain           |The online environment (SOD, QAStage, Production).   |
+|SubDomain           |The online environment (SOD, QAOnline, Production).   |
 |ContextIdentifier   |The tenant, or customer, identity.                 |
 |ClientSecret        |The application secret, a.k.a. client_secret.      |
 |PrivateKey          |The applications RSAXML private certificate value. |

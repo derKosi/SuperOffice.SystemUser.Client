@@ -17,7 +17,7 @@ namespace SuperOffice.SystemUser.Tokens
         /// Constructor
         /// </summary>
         /// <param name="client">HttpClient for issuing HTTP requests.</param>
-        /// <param name="environment">SuperOffice CRM online environment.</param>
+        /// <param name="subdomain">SuperOffice CRM online environment.</param>
         public SystemUserTokenHandler(HttpClient client, string subdomain) :
             base(client, subdomain)
         {

@@ -16,16 +16,15 @@
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageIcon>superoffice_logo.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>SuperOffice.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>False</SignAssembly>
+    <AssemblyOriginatorKeyFile></AssemblyOriginatorKeyFile>
     <FileVersion>1.0.0.3</FileVersion>
     <Version>1.0.3</Version>
     <PackageReleaseNotes>Changed SubDomain validation to only check subdomain begins with sod, qaonline or online.</PackageReleaseNotes>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <DocumentationFile>$(Output)\SuperOffice.SystemUser.Client.xml</DocumentationFile>
-  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'" />
 
   <ItemGroup>
     <None Remove="LICENSE.txt" />

@@ -78,7 +78,7 @@ namespace SuperOffice.SystemUser
                 // get => set the system user ticket for reuse
                 return validationResult.ClaimsIdentity.Claims.First(c => c.Type.Equals(Constants.ClaimNames.Ticket, StringComparison.OrdinalIgnoreCase)).Value;
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -108,7 +108,7 @@ namespace SuperOffice.SystemUser
                 return validationResult;
 
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }

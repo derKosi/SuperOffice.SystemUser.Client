@@ -20,7 +20,7 @@
     <AssemblyOriginatorKeyFile>C:\SuperOffice\FileSet\Critical\Keys\SuperOffice.snk</AssemblyOriginatorKeyFile>
     <FileVersion>1.0.0.4</FileVersion>
     <Version>1.0.4</Version>
-    <PackageReleaseNotes>Changed SubDomain validation to only check subdomain begins with sod, qaonline or online.</PackageReleaseNotes>
+    <PackageReleaseNotes>CHANGE THIS IN THE CSPROJ FILE</PackageReleaseNotes>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 

@@ -16,11 +16,10 @@
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageIcon>superoffice_logo.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>C:\SuperOffice\FileSet\Critical\Keys\SuperOffice.snk</AssemblyOriginatorKeyFile>
-    <FileVersion>1.0.0.4</FileVersion>
-    <Version>1.0.4</Version>
-    <PackageReleaseNotes>CHANGE THIS IN THE CSPROJ FILE</PackageReleaseNotes>
+    <SignAssembly>False</SignAssembly>
+    <FileVersion>1.0.0.5</FileVersion>
+    <Version>1.0.5</Version>
+    <PackageReleaseNotes>Aligned package references with SuperOffice.WebApi.</PackageReleaseNotes>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -52,9 +51,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
-    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.17.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.17.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.35.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.35.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 </Project>

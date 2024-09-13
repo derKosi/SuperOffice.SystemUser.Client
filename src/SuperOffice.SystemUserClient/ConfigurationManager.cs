@@ -41,7 +41,7 @@ namespace SuperOffice.SystemUser
 
         /// <summary>
         /// Gets or sets the target online subdomain to either sod, qaonline or online (for dev, stage, and production).
-        /// The default value is "SOD".
+        /// The default value is "sod".
         /// </summary>
         public string SubDomain
         {

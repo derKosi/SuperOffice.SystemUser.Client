@@ -1,12 +1,10 @@
 ﻿// SuperOffice AS licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using SuperOffice.SystemUser.Tokens;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -20,19 +18,15 @@ namespace SuperOffice.SystemUser
     /// <summary>
     /// Provides a class to obtain a System User Ticket or System User JWT.
     /// </summary>
-    public class SystemUserClient
+    public class SystemUserClient : ISystemUserClient
     {
         private readonly SystemUserInfo _systemUserInfo;
         private readonly HttpClient _httpClient;
 
-        /// <summary>
-        /// Populated when the System User Ticket is validated, this property represents the claims identity.
-        /// </summary>
+        /// <inheritdoc />
         public ClaimsIdentity ClaimsIdentity { get; private set; }
 
-        /// <summary>
-        /// Determines whether default HttpClient uses handler with default credentials and proxy settings. Default is false.
-        /// </summary>
+        /// <inheritdoc />
         public bool UseDefaultCredentials { get; set; } = false;
 
 
@@ -49,7 +43,7 @@ namespace SuperOffice.SystemUser
                 throw new ArgumentNullException(nameof(systemUserInfo));
             }
 
-            if(client == null)
+            if (client == null)
             {
                 UseDefaultCredentials = false;
             }
@@ -58,10 +52,7 @@ namespace SuperOffice.SystemUser
             this._httpClient = client;
         }
 
-        /// <summary>
-        /// Sends a request to the system user web service and validates the results.
-        /// </summary>
-        /// <returns>A system user ticket.</returns>
+        /// <inheritdoc />
         public async Task<string> GetSystemUserTicketAsync()
         {
             try
@@ -84,12 +75,7 @@ namespace SuperOffice.SystemUser
             }
         }
 
-        /// <summary>
-        /// Validates the response returned by the system user web service.
-        /// </summary>
-        /// <param name="systemUserResult">The response.</param>
-        /// <returns>Returned a TokenValidationResult instance.</returns>
-        /// <exception cref="Exception">An exception is thrown if there was any problems during validation.</exception>
+        /// <inheritdoc />
         public async Task<TokenValidationResult> ValidateSystemUserResultAsync(SystemUserResult systemUserResult)
         {
             if (!systemUserResult.IsSuccessful)
@@ -114,10 +100,7 @@ namespace SuperOffice.SystemUser
             }
         }
 
-        /// <summary>
-        /// Sends a request to the system user web service.
-        /// </summary>
-        /// <returns>The <see cref="SuperOffice.SystemUser.SystemUserResult"/> which, if successful, contains System User JWT.</returns>
+        /// <inheritdoc />
         public async Task<SystemUserResult> GetSystemUserJwtAsync()
         {
             try
@@ -142,7 +125,7 @@ namespace SuperOffice.SystemUser
                 }
 
                 var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                
+
                 return JsonConvert.DeserializeObject<SystemUserResult>(result);
             }
             catch (AggregateException ex)
@@ -183,7 +166,7 @@ namespace SuperOffice.SystemUser
             if (_httpClient != null)
                 return _httpClient;
 
-            if(!setDefaultCredentials)
+            if (!setDefaultCredentials)
                 return new HttpClient();
 
             var handler = new HttpClientHandler();
@@ -191,10 +174,10 @@ namespace SuperOffice.SystemUser
                 handler.UseDefaultCredentials = true;
                 handler.Credentials = System.Net.CredentialCache.DefaultNetworkCredentials; // current user
                 handler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
-                
+
                 // Turns out to be ignored by NTLM/Negotiate auth - it only works with current user. 
                 // Need to impersonate first if you want to use different identity
-                
+
                 handler.PreAuthenticate = true;
                 handler.AllowAutoRedirect = true; // Handle Negotiate automatically
                 handler.Proxy = WebRequest.DefaultWebProxy;

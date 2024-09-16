@@ -11,13 +11,13 @@ The JWT contains a lot of information, however, it's usually just the Ticket cre
 
 Use the SystemUserClient class, located in the `SuperOffice.SystemUser` namespace.
 
-The constructor accepts a `SuperOffice.SystemUser.SystemUserInfo` instance, and contains all of the information required to submit a request to the _partnersystemuserservice.svc_ endpoint.
+The constructor accepts a `SuperOffice.SystemUser.SystemUserInfo` instance, and contains all of the information required to submit a request to the [partner system user service REST endpoint](https://docs.superoffice.com/en/authentication/online/auth-application/get-system-user-ticket.html#use-the-rest-api).
 
 ### SystemUserInfo Properties
 
 |Property            |Description                                        |
 |--------------------|---------------------------------------------------|
-|SubDomain           |The online environment (SOD, QAOnline, Production).   |
+|SubDomain           |The online environment (sod, qaonline, online).    |
 |ContextIdentifier   |The tenant, or customer, identity.                 |
 |ClientSecret        |The application secret, a.k.a. client_secret.      |
 |PrivateKey          |The applications RSAXML private certificate value. |
@@ -35,6 +35,10 @@ var sysUserTkt = await sysUserClient.GetSystemUserTicketAsync();
 
 **GetSystemUserTicketAsync**, obtains the JWT, validates the token, and returns the system user ticket.
 
+### Dependency injection
+
+If your DI container supports lazy initialization, you can leverage the `ISystemUserClient` interface to make writing unit tests for your caller method easier. Register `SystemUserClient` as an `ISystemUserClient` in your container and for example add to your constructor a parameter of type `Func<SystemUserClient, HttpClient, ISystemUserClient>` that can be invoked when the system user token is known. If your DI container does not support lazy initialization, such as .NET's built-in service provider, you can also move the instantiation of `SystemUserClient` to a factory that returns a `ISystemUserClient` and still cover your method with unit tests.
+
 ## Explicit JWT validation
 
 When using `GetSystemUserJwtAsync`, there are two ways you can perform validation.
@@ -50,7 +54,7 @@ var tokenValidationResult = await sysUserClient.ValidateSystemUserResultAsync(sy
 ```C#
 var handler = new SystemUserTokenHandler(
     new System.Net.Http.HttpClient(), // HttpClient instance.
-    "sod"                             // target online environment (SOD, Stage or Production)
+    "sod"                             // target online environment (sod, qaonline or online)
     );
 
 var tokenValidationResult = await handler.ValidateAsync(sysUserJwt.Token);

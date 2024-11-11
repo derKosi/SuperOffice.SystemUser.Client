@@ -23,19 +23,9 @@ namespace SuperOffice.SystemUser.Helpers
             _subdomain = subdomain;
         }
 
-        internal string GetClaimsIssuer()
-        {
-            return Constants.OAuth.ClaimsIssuer.FormatWith(_subdomain);
-        }
-
         internal string GetMetadataAddress()
         {
-            return Constants.OAuth.MetadataEndpoint.FormatWith(_subdomain);
-        }
-
-        internal string GetAuthority()
-        {
-            return Constants.OAuth.Authority.FormatWith(_subdomain);
+            return Constants.OpenIdConnect.MetadataEndpoint.FormatWith(_subdomain);
         }
     }
 }

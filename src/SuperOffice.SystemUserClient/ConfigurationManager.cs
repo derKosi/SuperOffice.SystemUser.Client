@@ -24,7 +24,6 @@ namespace SuperOffice.SystemUser
         private OidcConfigAgent _configAgent;
         private string _subdomain;
 
-        
         /// <summary>
         /// Gets or sets the Authority to use when making OpenId Connect calls.
         /// </summary>
@@ -74,7 +73,7 @@ namespace SuperOffice.SystemUser
                 throw new InvalidSubDomainException("Invalid SuperOffice CRM online subdomain specified. Use 'sod' or 'qaonline' or 'online'.");
 
             SubDomain = subdomain;
-
+  
             // Have to look into avoiding WebApiOptions parameter here
             _configAgent =
                 new OidcConfigAgent(MetadataAddress, client);
@@ -100,16 +99,14 @@ namespace SuperOffice.SystemUser
             return Configuration;
         }
 
+
         /// <summary>
         /// Updates configuration settings.
         /// </summary>
         private void UpdateEndpoints()
         {
             var urlHelper = new UrlHelper(_subdomain);
-
-            ClaimsIssuer = urlHelper.GetClaimsIssuer();
             MetadataAddress = urlHelper.GetMetadataAddress();
-            Authority = urlHelper.GetAuthority();
         }
     }
 }

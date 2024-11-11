@@ -43,7 +43,6 @@ namespace SuperOffice.SystemUser
             {
                 return configuration;
             }
-
             // Retrieve the OpenID configuration
             configuration = await _configManager.GetConfigurationAsync(CancellationToken.None);
             _cache.Set(metadataAddress, configuration, new DateTimeOffset(DateTime.Now.AddSeconds(15)));

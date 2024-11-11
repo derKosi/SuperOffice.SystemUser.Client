@@ -1,5 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using SuperOffice.SystemUser;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Test.SystemUserClient
@@ -7,24 +10,42 @@ namespace Test.SystemUserClient
     [TestClass]
     public class SystemUserClientTests
     {
+         private Settings _settings;
+
         /*
-            To run tests, populate the following private members with your application details.
+         * The TestInitialize method is called before each test method in the test class.
+         * It fetches the settings from the configuration file, settings.test.json, and the certificate from pricateKey.xml
          */
 
-        private readonly string _clientSecret = "YOUR_APP_CLIENT_SECRET";
-        private readonly string _contextIdentifier = "Cust12345";
-        private readonly string _subDomain = "sod";
-        private readonly string _systemUserToken = "YOUR_APP_SYSTEM_USER_TOKEN";
-        private readonly string _privateKey = @"<RSAKeyValue>
-  <Modulus>YOUR_APP_RSA_XML_MODULUS</Modulus>
-  <Exponent>YOUR_APP_RSA_XML_EXPONENT</Exponent>
-  <P>YOUR_APP_RSA_XML_P</P>
-  <Q>YOUR_APP_RSA_XML_Q</Q>
-  <DP>YOUR_APP_RSA_XML_DP</DP>
-  <DQ>YOUR_APP_RSA_XML_DQ</DQ>
-  <InverseQ>YOUR_APP_RSA_XML_INVERSEQ</InverseQ>
-  <D>YOUR_APP_RSA_XML_D</D>
-</RSAKeyValue>";
+        [TestInitialize]
+        public void Initialize()
+        {
+            _settings = LoadConfiguration();
+            _settings.PrivateKey = PrivateCertificate;
+        }
+
+        private static Settings LoadConfiguration()
+        {
+            var configText = File.ReadAllText("settings.test.json");
+            var settings = JsonConvert.DeserializeObject<Settings>(configText);
+            return settings;
+        }
+
+        private static string PrivateCertificate
+        {
+            get
+            {
+                // Load the private key from the specified file path
+                if (File.Exists("privateKey.xml"))
+                {
+                    return File.ReadAllText("privateKey.xml");
+                }
+                else
+                {
+                    throw new FileNotFoundException("Private key file not found.");
+                }
+            }
+        }
 
         [TestMethod]
         public async Task Test_Get_SystemUser_Ticket_Async()
@@ -87,11 +108,11 @@ namespace Test.SystemUserClient
         private SuperOffice.SystemUser.SystemUserInfo GetSystemUserInfo()
         {
             var sysUser = new SuperOffice.SystemUser.SystemUserInfo();
-            sysUser.ClientSecret = _clientSecret;
-            sysUser.ContextIdentifier = _contextIdentifier;
-            sysUser.SubDomain = _subDomain;
-            sysUser.SystemUserToken = _systemUserToken;
-            sysUser.PrivateKey = _privateKey;
+            sysUser.ClientSecret = _settings.ClientSecret;
+            sysUser.ContextIdentifier = _settings.ContextIdentifier;
+            sysUser.SubDomain = _settings.SubDomain;
+            sysUser.SystemUserToken = _settings.SystemUserToken;
+            sysUser.PrivateKey = _settings.PrivateKey;
 
             return sysUser;
         }

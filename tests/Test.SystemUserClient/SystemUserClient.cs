@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using SuperOffice.SystemUser;
@@ -10,25 +11,29 @@ namespace Test.SystemUserClient
     [TestClass]
     public class SystemUserClientTests
     {
-         private Settings _settings;
+        private readonly IConfiguration _configuration;
 
-        /*
-         * The TestInitialize method is called before each test method in the test class.
-         * It fetches the settings from the configuration file, settings.test.json, and the certificate from pricateKey.xml
-         */
-
-        [TestInitialize]
-        public void Initialize()
+        public SystemUserClientTests()
         {
-            _settings = LoadConfiguration();
-            _settings.PrivateKey = PrivateCertificate;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory()) // Ensure it's pointing to the correct directory
+                .AddJsonFile("appsettings.test.json");
+
+            _configuration = builder.Build();
         }
 
-        private static Settings LoadConfiguration()
+        [TestMethod]
+        public void Test_Configuration()
         {
-            var configText = File.ReadAllText("settings.test.json");
-            var settings = JsonConvert.DeserializeObject<Settings>(configText);
-            return settings;
+            var requiredKeys = new[] { "ClientSecret", "ContextIdentifier", "SubDomain", "SystemUserToken" };
+
+            foreach (var key in requiredKeys)
+            {
+                Assert.IsNotNull(_configuration[key], $"{key} is missing in the configuration.");
+            }
+
+            var certificate = PrivateCertificate;
+            Assert.IsNotNull(certificate, "Private key is missing.");
         }
 
         private static string PrivateCertificate
@@ -108,11 +113,11 @@ namespace Test.SystemUserClient
         private SuperOffice.SystemUser.SystemUserInfo GetSystemUserInfo()
         {
             var sysUser = new SuperOffice.SystemUser.SystemUserInfo();
-            sysUser.ClientSecret = _settings.ClientSecret;
-            sysUser.ContextIdentifier = _settings.ContextIdentifier;
-            sysUser.SubDomain = _settings.SubDomain;
-            sysUser.SystemUserToken = _settings.SystemUserToken;
-            sysUser.PrivateKey = _settings.PrivateKey;
+            sysUser.ClientSecret = _configuration["ClientSecret"];
+            sysUser.ContextIdentifier = _configuration["ContextIdentifier"];
+            sysUser.SubDomain = _configuration["SubDomain"];
+            sysUser.SystemUserToken = _configuration["SystemUserToken"];
+            sysUser.PrivateKey = PrivateCertificate;
 
             return sysUser;
         }

@@ -13,10 +13,6 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
-# Test-specific files
-privateKey.xml
-settings.test.json
-
 # Mono auto generated files
 mono_crash.*
 
@@ -352,3 +348,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+appsettings.test.json
+privateKey.xml

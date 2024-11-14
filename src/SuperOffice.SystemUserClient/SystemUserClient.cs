@@ -2,7 +2,6 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using SuperOffice.SystemUser.Tokens;
 using System;
 using System.Linq;
@@ -11,6 +10,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace SuperOffice.SystemUser
@@ -126,7 +126,7 @@ namespace SuperOffice.SystemUser
 
                 var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                return JsonConvert.DeserializeObject<SystemUserResult>(result);
+                return JsonSerializer.Deserialize<SystemUserResult>(result);
             }
             catch (AggregateException ex)
             {
@@ -147,7 +147,7 @@ namespace SuperOffice.SystemUser
 
         private string GetSystemUserRequestBody()
         {
-            var result = JsonConvert.SerializeObject(_systemUserInfo);
+            var result = JsonSerializer.Serialize(_systemUserInfo);
             return result;
         }
 

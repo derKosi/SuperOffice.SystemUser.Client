@@ -1,7 +1,4 @@
-﻿// SuperOffice AS licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace SuperOffice.SystemUser
 {
@@ -13,19 +10,22 @@ namespace SuperOffice.SystemUser
         /// <summary>
         /// Error Message if any.
         /// </summary>
-        [JsonProperty(PropertyName = "ErrorMessage", NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("ErrorMessage")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string ErrorMessage { get; set; }
 
         /// <summary>
         /// IsSuccessful is true when the token is successfully returned.
         /// </summary>
-        [JsonProperty(PropertyName = "IsSuccessful", NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)] 
+        [JsonPropertyName("IsSuccessful")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool IsSuccessful { get; set; }
 
         /// <summary>
         /// Token is the system user token as JWT.
         /// </summary>
-        [JsonProperty(PropertyName = "Token", NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("Token")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Token { get; set; }
     }
 }

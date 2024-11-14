@@ -14,9 +14,7 @@ namespace SuperOffice.SystemUser
 {
     internal class OidcConfigAgent
     {
-        private HttpClient _client;
         private static MemoryCache _cache;
-        private string _uri;
         private readonly ConfigurationManager<OpenIdConnectConfiguration> _configManager;
 
         static OidcConfigAgent()
@@ -24,11 +22,8 @@ namespace SuperOffice.SystemUser
             _cache = new MemoryCache(new MemoryCacheOptions());
         }
 
-        public OidcConfigAgent(string uri, HttpClient client)
+        public OidcConfigAgent(string uri)
         {
-            this._uri = uri;
-            this._client = client;
-
             var retriever = new OpenIdConnectConfigurationRetriever();
             _configManager = new ConfigurationManager<OpenIdConnectConfiguration>(
                 uri,

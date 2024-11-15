@@ -17,8 +17,8 @@
     <PackageIcon>superoffice_logo.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <SignAssembly>False</SignAssembly>
-    <FileVersion>1.0.1.0</FileVersion>
-    <Version>1.1.0</Version>
+    <FileVersion>1.0.2.0</FileVersion>
+    <Version>1.2.0</Version>
     <PackageReleaseNotes>Added interface ISystemUserClient for easier testability.</PackageReleaseNotes>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>

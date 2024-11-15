@@ -1,5 +1,10 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using SuperOffice.SystemUser;
+using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Test.SystemUserClient
@@ -7,24 +12,46 @@ namespace Test.SystemUserClient
     [TestClass]
     public class SystemUserClientTests
     {
-        /*
-            To run tests, populate the following private members with your application details.
-         */
+        private readonly IConfiguration _configuration;
 
-        private readonly string _clientSecret = "YOUR_APP_CLIENT_SECRET";
-        private readonly string _contextIdentifier = "Cust12345";
-        private readonly string _subDomain = "sod";
-        private readonly string _systemUserToken = "YOUR_APP_SYSTEM_USER_TOKEN";
-        private readonly string _privateKey = @"<RSAKeyValue>
-  <Modulus>YOUR_APP_RSA_XML_MODULUS</Modulus>
-  <Exponent>YOUR_APP_RSA_XML_EXPONENT</Exponent>
-  <P>YOUR_APP_RSA_XML_P</P>
-  <Q>YOUR_APP_RSA_XML_Q</Q>
-  <DP>YOUR_APP_RSA_XML_DP</DP>
-  <DQ>YOUR_APP_RSA_XML_DQ</DQ>
-  <InverseQ>YOUR_APP_RSA_XML_INVERSEQ</InverseQ>
-  <D>YOUR_APP_RSA_XML_D</D>
-</RSAKeyValue>";
+        public SystemUserClientTests()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory()) // Ensure it's pointing to the correct directory
+                .AddJsonFile($"appsettings.json");
+
+            _configuration = builder.Build();
+        }
+
+        [TestMethod]
+        public void Test_Configuration()
+        {
+            var requiredKeys = new[] { "ClientSecret", "ContextIdentifier", "SubDomain", "SystemUserToken", "PrivateKeyFile" };
+
+            foreach (var key in requiredKeys)
+            {
+                Assert.IsNotNull(_configuration[key], $"{key} is missing in the configuration.");
+            }
+
+            var certificate = PrivateCertificate;
+            Assert.IsNotNull(certificate, "Private key is missing.");
+        }
+
+        private string PrivateCertificate
+        {
+            get
+            {
+                // Load the private key from the specified file path
+                if (File.Exists(_configuration["PrivateKeyFile"]))
+                {
+                    return File.ReadAllText(_configuration["PrivateKeyFile"]);
+                }
+                else
+                {
+                    throw new FileNotFoundException("Private key file not found.");
+                }
+            }
+        }
 
         [TestMethod]
         public async Task Test_Get_SystemUser_Ticket_Async()
@@ -87,11 +114,11 @@ namespace Test.SystemUserClient
         private SuperOffice.SystemUser.SystemUserInfo GetSystemUserInfo()
         {
             var sysUser = new SuperOffice.SystemUser.SystemUserInfo();
-            sysUser.ClientSecret = _clientSecret;
-            sysUser.ContextIdentifier = _contextIdentifier;
-            sysUser.SubDomain = _subDomain;
-            sysUser.SystemUserToken = _systemUserToken;
-            sysUser.PrivateKey = _privateKey;
+            sysUser.ClientSecret = _configuration["ClientSecret"];
+            sysUser.ContextIdentifier = _configuration["ContextIdentifier"];
+            sysUser.SubDomain = _configuration["SubDomain"];
+            sysUser.SystemUserToken = _configuration["SystemUserToken"];
+            sysUser.PrivateKey = PrivateCertificate;
 
             return sysUser;
         }

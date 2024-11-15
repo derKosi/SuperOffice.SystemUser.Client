@@ -1,11 +1,11 @@
 ﻿// SuperOffice AS licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace SuperOffice.SystemUser
 {
@@ -19,62 +19,57 @@ namespace SuperOffice.SystemUser
         /// <summary>
         /// The application secret, used in CRM online only. Equivalent to OAuth client_secret.
         /// </summary>
-        [JsonProperty(PropertyName = "ApplicationToken", NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("ApplicationToken")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string ClientSecret { get; set; }
 
         /// <summary>
         /// The customer id, used in CRM online only. Example Cust12345.
         /// </summary>
-        [JsonProperty(PropertyName = "ContextIdentifier", NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("ContextIdentifier")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string ContextIdentifier { get; set; }
 
         /// <summary>
         /// The application private key (RSA XML format), used to sign system user token requests. Starts with &lt;RSAKeyValue&gt;.
         /// </summary>
-        [JsonIgnore()]
+        [JsonIgnore]
         public string PrivateKey { get; set; }
 
         /// <summary>
         /// The target SuperOffice CRM online subdomain ('sod', 'qaonline' or 'online').
         /// </summary>
-        [JsonIgnore()]
-        public string SubDomain 
+        [JsonIgnore]
+        public string SubDomain
         {
-            get
-            {
-                return _subDomain;
-            }
+            get => _subDomain;
             set
             {
                 if (!value.IsValidSubDomain())
                     throw new Client.Exceptions.InvalidSubDomainException("Invalid SuperOffice CRM online subdomain specified. Use 'sod' or 'qaonline' or 'online'.");
                 _subDomain = value;
-            } 
+            }
         }
 
         /// <summary>
         /// Application system user token. Obtained as a claim in an authorization response.
         /// </summary>
-        [JsonIgnore()] 
+        [JsonIgnore]
         public string SystemUserToken { get; set; }
 
         /// <summary>
         /// Return token type. Always JWT.
         /// </summary>
-        [JsonProperty(PropertyName = "ReturnTokenType", NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("ReturnTokenType")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string ReturnTokenType => "JWT";
 
         /// <summary>
         /// SignedSystemToken is the signed system user token string.
         /// </summary>
-        [JsonProperty(PropertyName = "SignedSystemToken", NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string SignedSystemToken
-        {
-            get
-            {
-                return Sign();
-            }
-        }
+        [JsonPropertyName("SignedSystemToken")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string SignedSystemToken => Sign();
 
         /// <summary>
         /// Cryptographically sign system user token.
@@ -88,13 +83,11 @@ namespace SuperOffice.SystemUser
             using (RSACryptoServiceProvider rSACryptoServiceProvider = new RSACryptoServiceProvider())
             {
                 rSACryptoServiceProvider.FromXmlString(PrivateKey);
-                byte[] signedTokenAndDate = rSACryptoServiceProvider.SignData(Encoding.UTF8.GetBytes(tokenAndDate), "SHA256");
+                byte[] signedTokenAndDate = rSACryptoServiceProvider.SignData(Encoding.UTF8.GetBytes(tokenAndDate), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
                 result = string.Concat(tokenAndDate, ".", Convert.ToBase64String(signedTokenAndDate));
             }
 
             return result;
         }
-
-
     }
 }

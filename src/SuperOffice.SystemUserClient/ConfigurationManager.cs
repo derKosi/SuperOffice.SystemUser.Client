@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace SuperOffice.SystemUser
 {
@@ -23,7 +24,6 @@ namespace SuperOffice.SystemUser
         private OidcConfigAgent _configAgent;
         private string _subdomain;
 
-        
         /// <summary>
         /// Gets or sets the Authority to use when making OpenId Connect calls.
         /// </summary>
@@ -37,7 +37,7 @@ namespace SuperOffice.SystemUser
         /// <summary>
         /// OpenId Connect configuration settings.
         /// </summary>
-        public OpenIdConfiguration Configuration { get; private set; } = null;
+        public OpenIdConnectConfiguration Configuration { get; private set; } = null;
 
         /// <summary>
         /// Gets or sets the target online subdomain to either sod, qaonline or online (for dev, stage, and production).
@@ -73,17 +73,17 @@ namespace SuperOffice.SystemUser
                 throw new InvalidSubDomainException("Invalid SuperOffice CRM online subdomain specified. Use 'sod' or 'qaonline' or 'online'.");
 
             SubDomain = subdomain;
-
+  
             // Have to look into avoiding WebApiOptions parameter here
             _configAgent =
-                new OidcConfigAgent(MetadataAddress, client);
+                new OidcConfigAgent(MetadataAddress);
         }
 
         /// <summary>
         /// Gets OpenID metadata from metadata Uri. 
         /// </summary>
         /// <returns></returns>
-        public async Task<OpenIdConfiguration> GetConfigurationAsync()
+        public async Task<OpenIdConnectConfiguration> GetConfigurationAsync()
         {
             // WebApiOptions messes with base url...
             //if(MetadataAddress.EndsWith("api/", StringComparison.InvariantCultureIgnoreCase))
@@ -96,9 +96,9 @@ namespace SuperOffice.SystemUser
             if(Configuration == null || string.IsNullOrEmpty(Configuration.AuthorizationEndpoint))
                 Configuration = await _configAgent.GetConfigurationAsync(MetadataAddress).ConfigureAwait(false);
 
-            Configuration.JsonWebKeySet = await _configAgent.GetJsonWebKeySetAsync(Configuration.JwksUri).ConfigureAwait(false);
             return Configuration;
         }
+
 
         /// <summary>
         /// Updates configuration settings.
@@ -106,10 +106,7 @@ namespace SuperOffice.SystemUser
         private void UpdateEndpoints()
         {
             var urlHelper = new UrlHelper(_subdomain);
-
-            ClaimsIssuer = urlHelper.GetClaimsIssuer();
             MetadataAddress = urlHelper.GetMetadataAddress();
-            Authority = urlHelper.GetAuthority();
         }
     }
 }

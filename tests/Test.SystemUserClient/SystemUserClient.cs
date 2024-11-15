@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using SuperOffice.SystemUser;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace Test.SystemUserClient
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory()) // Ensure it's pointing to the correct directory
-                .AddJsonFile("appsettings.test.json");
+                .AddJsonFile($"appsettings.json");
 
             _configuration = builder.Build();
         }
@@ -25,7 +26,7 @@ namespace Test.SystemUserClient
         [TestMethod]
         public void Test_Configuration()
         {
-            var requiredKeys = new[] { "ClientSecret", "ContextIdentifier", "SubDomain", "SystemUserToken" };
+            var requiredKeys = new[] { "ClientSecret", "ContextIdentifier", "SubDomain", "SystemUserToken", "PrivateKeyFile" };
 
             foreach (var key in requiredKeys)
             {
@@ -36,14 +37,14 @@ namespace Test.SystemUserClient
             Assert.IsNotNull(certificate, "Private key is missing.");
         }
 
-        private static string PrivateCertificate
+        private string PrivateCertificate
         {
             get
             {
                 // Load the private key from the specified file path
-                if (File.Exists("privateKey.xml"))
+                if (File.Exists(_configuration["PrivateKeyFile"]))
                 {
-                    return File.ReadAllText("privateKey.xml");
+                    return File.ReadAllText(_configuration["PrivateKeyFile"]);
                 }
                 else
                 {
